@@ -2,7 +2,7 @@ import { Doughnut } from 'react-chartjs-2';
 import Form from './Form'
 
 const App = () => {
-  const data = {
+  const data = {  // data 
     labels: [
       'Red',
       'Blue',
@@ -23,7 +23,7 @@ const App = () => {
   return (
     <div className="App">
       <Form />
-      <Doughnut data={data} />
+      <Doughnut data={data} />  // data 
     </div>
   );
 }
