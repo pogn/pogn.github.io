@@ -1,30 +1,16 @@
-import { Doughnut } from 'react-chartjs-2';
 import Form from './Form'
+import ResultDownload from './ResultFile'
+import Chart from './ResultShow'
+
 
 const App = () => {
-  const data = {  // data 
-    labels: [
-      'Red',
-      'Blue',
-      'Yellow'
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [300, 50, 100],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
-      hoverOffset: 4
-    }]
-  }
-
   return (
     <div className="App">
-      <Form />
-      <Doughnut data={data} />  // data 
+      네트워크 정보 upload : <Form />
+      csv 예시  : <ResultDownload />
+      분석 요약 <Chart />  
     </div>
+
   );
 }
 

@@ -1,23 +1,42 @@
-import csvDownload from 'json-to-csv-export';
+import csvDownload from 'json-to-csv-export'; //@
+
+
+const data_list =[] 
 
 const fileReaderOnload = (event) => {
     const { target } = event;
-    const { result } = target;
+    const { result } = target; 
+    // console.log(typeof(result)) // -> string 
     console.log('onload!');
-    console.log(result);
-    // console.log(typeof result); // string
+   
+    var parsed_result = result.match(/[a-zA-Z0-9\.\:\[\]\*\_\%]+/g); 
+    var ptr = 1
+    console.log(parsed_result.length)
+    for (var i=0; i<parsed_result.length; i++){
+      if (parsed_result[ptr] == "TCP") { 
+        const data = {'protocol':parsed_result[ptr],'localIP':parsed_result[ptr+1],'externalIP':parsed_result[ptr+2],'status':parsed_result[ptr+3],'PID':parsed_result[ptr+4]}
+        data_list.push(data)
+        ptr = ptr + 5
+      } else if (parsed_result[ptr] == "UDP") {
+        const data = {'protocol':parsed_result[ptr],'localIP':parsed_result[ptr+1],'externalIP':parsed_result[ptr+2],'status':'','PID':parsed_result[ptr+3]}
+        data_list.push(data)
+        ptr = ptr + 4
+      } else {
+        continue
+      }
+    }
+    console.log(data_list)
 
-    result.replace(/ +/g, " ") // 1) 여러개의 공백을 한개의 공백(구분자)으로 치환 
- // 2) 세번째 줄부터 접근
- // 3) JSON object 로 변환
- // 4) csv로 export 
-    const spl_result = result.split(" ",100);
-    console.log(spl_result)
-    
+    // (질문)
+    // line8 - result대신 text라고 변수명 바꾸니까 동작 안하는이유 (undefinded)
+    // line11 - javascript에서는 const result에서 const 안써도 동작했는데 React에서는 var, const를 명시해야하나 (오류발생)
+    // line16 - ==와 ===의 차이점? ==쓰니까 ===를 기대했다고 함
+    // 다른 jsx 파일에 있는 const 변수는 못불러오나 (data_list를 ResultFile.jsx에 넘겨서 나중에 다른 데이터와 같이 다운로드 하고싶음)
 
-    // result를 정규표현식으로 거르면 된다.
+    // (참고문헌)
+    // 정규표현식 match함수 g옵션 : 모든 문자열 반환 //https://velog.io/@sso/%EC%A0%95%EA%B7%9C%ED%91%9C%ED%98%84%EC%8B%9D-Regular-Expressions 
+
 }
-const mockData = [{'test':'is','good':'foryou'}];
 
 const Form = () => {
     const hanldeFile = (event) => {
@@ -36,10 +55,12 @@ const Form = () => {
             <input type="submit" value="Submit" />
             <button onClick={(e) => {
                 e.preventDefault();
-                csvDownload(mockData);
+                csvDownload(data_list); 
             }}>Download Data</button>
-        </form>        
+        </form>           
+            
     )
 };
+
 
 export default Form;
