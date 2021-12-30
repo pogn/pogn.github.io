@@ -1,6 +1,6 @@
 import { Doughnut } from 'react-chartjs-2';
 
-const Chart = () => {
+export const NetChart = () => {
     const data = {  // data 
         labels: [
           'Red',
@@ -19,9 +19,9 @@ const Chart = () => {
         }]
       }
     
-    return (
+    return (      
         <Doughnut data={data} />  
     )
 };
 
-export default Chart;
+  
